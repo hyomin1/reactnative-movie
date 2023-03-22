@@ -1,26 +1,23 @@
-import {
-  NavigationContainer,
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
 import React, { useState } from "react";
-import * as Font from "expo-font";
-import { Ionicons } from "@expo/vector-icons";
-import { useColorScheme } from "react-native";
-import Tabs from "./navigation/Tabs";
-import Stack from "./navigation/Stack";
+
 import Root from "./navigation/Root";
 import { darkTheme, ligthTheme } from "./styled";
+import { QueryClient } from "react-query";
+import { QueryClientProvider } from "react-query";
 
 export default function App() {
   const isDark = true; //useColorScheme() === "dark";
 
+  const queryClient = new QueryClient();
+
   return (
-    <ThemeProvider theme={isDark ? darkTheme : ligthTheme}>
-      <NavigationContainer>
-        <Root />
-      </NavigationContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={isDark ? darkTheme : ligthTheme}>
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
