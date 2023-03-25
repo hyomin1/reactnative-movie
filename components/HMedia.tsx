@@ -1,6 +1,8 @@
 import Poster from "./Poster";
 import React from "react";
 import styled from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
 
 interface HMediaProps {
   poster_path: string;
@@ -38,25 +40,31 @@ const HMedia: React.FC<HMediaProps> = ({
   release_date,
   overview,
 }) => {
+  const navigation = useNavigation();
+  const goToDetail = () => {
+    navigation.navigate("Stack", { screen: "Detail" });
+  };
   return (
-    <HMovie>
-      <Poster path={poster_path} />
-      <HColumn>
-        <Title>{original_title}</Title>
-        <Release>
-          {new Date(release_date).toLocaleDateString("ko", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </Release>
-        <Overview>
-          {overview !== "" && overview.length > 13
-            ? `${overview.slice(0, 140)}...`
-            : overview}
-        </Overview>
-      </HColumn>
-    </HMovie>
+    <TouchableOpacity onPress={goToDetail}>
+      <HMovie>
+        <Poster path={poster_path} />
+        <HColumn>
+          <Title>{original_title}</Title>
+          <Release>
+            {new Date(release_date).toLocaleDateString("ko", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </Release>
+          <Overview>
+            {overview !== "" && overview.length > 13
+              ? `${overview.slice(0, 140)}...`
+              : overview}
+          </Overview>
+        </HColumn>
+      </HMovie>
+    </TouchableOpacity>
   );
 };
 
